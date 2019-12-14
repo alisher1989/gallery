@@ -101,7 +101,7 @@ function createCommentForm() {
 }
 
 function getComments(id) {
-    let request = makeRequest('photo/' + id, 'post', true);
+    let request = makeRequest('photo/', 'get', true);
     request.done(function(data, status, response) {
         console.log(data);
         formModal.modal('hide');
@@ -115,6 +115,7 @@ function getComments(id) {
 $(document).ready(function() {
     setUpGlobalVars();
     createCommentForm();
+    getComments();
     likeUp();
     likeDown();
 });
