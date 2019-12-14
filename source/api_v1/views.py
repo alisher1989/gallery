@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -18,7 +19,7 @@ class LogoutView(APIView):
         return Response({'status': 'OK'})
 
 
-class PhotoViewSet(viewsets.ModelViewSet):
+class PhotoViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     permission_classes = [AllowAny]
     serializer_class = PhotoSerializer
     queryset = Photo.objects.all()
@@ -28,14 +29,14 @@ class PhotoViewSet(viewsets.ModelViewSet):
         like = self.get_object()
         like.like_amount += 1
         like.save()
-        return Response({'id': like.pk, 'rating': like.like_amount})
+        return Response({'id': like.pk, 'like_amount': like.like_amount})
 
     @action(methods=['post'], detail=True)
     def like_down(self, request, pk=None):
         like = self.get_object()
         like.like_amount -= 1
         like.save()
-        return Response({'id': like.pk, 'rating': like.like_amount})
+        return Response({'id': like.pk, 'like_amount': like.like_amount})
 
 
 class CommentViewSet(viewsets.ModelViewSet):

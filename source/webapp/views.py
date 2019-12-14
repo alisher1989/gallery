@@ -4,8 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, ListView
-
+from django.views.decorators.csrf import ensure_csrf_cookie
 from webapp.forms import PhotoForm
 from webapp.models import Photo
 
@@ -45,6 +46,10 @@ class PhotoDetailView(DetailView):
     context_object_name = 'photo'
     model = Photo
     pk_url_kwarg = 'pk'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
         return reverse('webapp:photo_detail')

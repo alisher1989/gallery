@@ -6,6 +6,7 @@ function getFullPath(path) {
     return baseUrl + path + '/';
 }
 
+console.log('Yes');
 
 function makeRequest(path, method, auth=true, data=null) {
     let settings = {
@@ -43,8 +44,31 @@ function setUpGlobalVars() {
     emailInput = $('#email_input');
 }
 
-function createComment(text, author) {
-    const credentials = {text, author};
+function likeUp(id) {
+    console.log(id);
+    let request = makeRequest('photo/' + id + '/like_up', 'post', false);
+    request.done(function(data, status, response) {
+        console.log('Liked up quote with id ' + id + '.');
+        $(like + id).text(data.like_amout);
+    }).fail(function(response, status, message) {
+        console.log('Could not rate up quote with id ' + id + '.');
+        console.log(response.responseText);
+    });
+}
+
+function likeDown(id) {
+    let request = makeRequest('photo/' + id + '/like_down', 'post', false);
+    request.done(function(data, status, response) {
+        console.log('Liked down quote with id ' + id + '.');
+        $(dislike + id).text(data.rating);
+    }).fail(function(response, status, message) {
+        console.log('Could not rate down quote with id ' + id + '.');
+        console.log(response.responseText);
+    });
+}
+
+function createComment(text) {
+    const credentials = {text};
     let request = makeRequest('photo/', 'post', true, credentials);
     request.done(function(data, status, response) {
         console.log(data);
@@ -58,7 +82,8 @@ function createComment(text, author) {
 function createCommentForm() {
     commentForm.on('submit', function (event) {
         event.preventDefault();
-        createComment(textInput.val(), authorInput.val());
+        var user = request.user;
+        createComment(textInput.val(), user);
     });
 
     createLink.on('click', function (event) {
@@ -75,8 +100,8 @@ function createCommentForm() {
     getComments();
 }
 
-function getComments() {
-    let request = makeRequest('photo/', 'post', true, credentials);
+function getComments(id) {
+    let request = makeRequest('photo/' + id, 'post', true);
     request.done(function(data, status, response) {
         console.log(data);
         formModal.modal('hide');
@@ -87,9 +112,9 @@ function getComments() {
 }
 
 
-
-
 $(document).ready(function() {
     setUpGlobalVars();
     createCommentForm();
+    likeUp();
+    likeDown();
 });
