@@ -1,0 +1,108 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$wpMO5mtKsIzM$xtgsKvWVG1t8vauPCqmmZBow2xMRHBlxF4cWBUHR2Jo=",
+    "last_login": "2019-12-14T09:45:34.353Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-12-14T07:40:10.100Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 1,
+  "fields": {
+    "text": "Great Player",
+    "image": 6,
+    "author": [
+      "admin"
+    ],
+    "created_at": "2019-12-14T09:59:02.057Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 2,
+  "fields": {
+    "text": "My girl",
+    "image": 7,
+    "author": [
+      "admin"
+    ],
+    "created_at": "2019-12-14T09:59:15.728Z"
+  }
+},
+{
+  "model": "webapp.comment",
+  "pk": 3,
+  "fields": {
+    "text": "Arsenal Stadium",
+    "image": 8,
+    "author": [
+      "admin"
+    ],
+    "created_at": "2019-12-14T09:59:28.535Z"
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 5,
+  "fields": {
+    "image": "gallery_images/160723-1920x1163.jpg",
+    "signature": "Arsenal",
+    "created_at": "2019-12-14T08:05:02.576Z",
+    "like_amount": 3,
+    "author": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 6,
+  "fields": {
+    "image": "gallery_images/henrymarque_1024x768_249367.jpg",
+    "signature": "Thierry Henry",
+    "created_at": "2019-12-14T08:05:19.826Z",
+    "like_amount": 0,
+    "author": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 7,
+  "fields": {
+    "image": "gallery_images/marina.jpg",
+    "signature": "Marina Kravec",
+    "created_at": "2019-12-14T08:05:31.216Z",
+    "like_amount": 0,
+    "author": [
+      "admin"
+    ]
+  }
+},
+{
+  "model": "webapp.photo",
+  "pk": 8,
+  "fields": {
+    "image": "gallery_images/131418-1920x1200.jpg",
+    "signature": "Emirates",
+    "created_at": "2019-12-14T08:33:08.771Z",
+    "like_amount": 0,
+    "author": [
+      "admin"
+    ]
+  }
+}
+]
