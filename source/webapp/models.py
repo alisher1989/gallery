@@ -15,9 +15,11 @@ class Photo(models.Model):
 
 class Comment(models.Model):
     text = models.TextField(max_length=2000, null=True, blank=True, verbose_name='Текст')
-    image = models.ForeignKey(Photo, max_length=200, verbose_name='Фотография', related_name='comments_photo', on_delete=models.CASCADE)
+    image = models.ForeignKey('webapp.Photo', max_length=200, verbose_name='Фотография', related_name='comments_photo', on_delete=models.CASCADE)
     author = models.ForeignKey(User, null=False, blank=False, related_name='comments_author', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+
 
     def __str__(self):
         return self.text
