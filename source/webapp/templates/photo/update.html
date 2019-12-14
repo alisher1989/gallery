@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Update photo{% endblock %}
+{% block menu %}
+    <li><a href="{% url 'webapp:index' %}">Gallery</a></li>
+{% endblock %}
+{% block content %}
+    <h1>Update Photo</h1>
+    <form method="POST" action="{% url "webapp:update_photo" photo.pk %}" method="post" enctype="multipart/form-data">
+        {% include 'partial/form.html' with button_text="Update" %}
+    </form>
+{% endblock %}
