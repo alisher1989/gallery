@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
@@ -72,18 +72,24 @@ class PhotoCreateView(LoginRequiredMixin, CreateView):
         return reverse('webapp:index')
 
 
-class PhotoUpdateView(LoginRequiredMixin, UpdateView):
+class PhotoUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Photo
     template_name = 'photo/update.html'
     form_class = PhotoForm
     context_object_name = 'photo'
     permission_required = 'webapp.change_photo'
+    permission_denied_message = 'Доступ ограничен'
+
+    def test_func(self):
+        photo = self.get_object()
+        return self.request.user == photo.author or self.request.user.is_superuser \
+               or self.request.user.has_perm('webapp.change_photo')
 
     def get_success_url(self):
         return reverse('webapp:photo_detail', kwargs={'pk': self.object.pk})
 
 
-class PhotoDeleteView(LoginRequiredMixin, DeleteView):
+class PhotoDeleteView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Photo
     pk_kwargs_url = 'pk'
     template_name = 'photo/delete.html'
@@ -91,6 +97,11 @@ class PhotoDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('webapp:photos_view')
     permission_required = 'webapp.delete_photo'
     permission_denied_message = '403 Denied  permission'
+
+    def test_func(self):
+        photo = self.get_object()
+        return self.request.user == photo.author or self.request.user.is_superuser \
+               or self.request.user.has_perm('webapp.delete_photo')
 
     def get_success_url(self):
         return reverse('webapp:index')
